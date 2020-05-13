@@ -27,7 +27,20 @@ const district_density = {
     "中正區": 1233,
     "大安區": 121,
     "南澳鄉": 9333,
-    "東石鄉": 5555
+    "東石鄉": 5555,
+    "鳳林鎮": 321,
+    "光復鄉": 99,
+    "瑞穗鄉": 1003,
+    "豐濱鄉": 4599,
+    "富里鄉": 1231,
+    "玉里鎮": 8712,
+    "萬榮鄉": 918,
+    "吉安鄉": 138,
+    "新城鄉": 999,
+    "秀林鄉": 7727,
+    "花蓮市": 9000,
+    "壽豐鄉": 1555,
+    "卓溪鄉": 10,
 }
 
 var path = ''
@@ -103,7 +116,7 @@ function render(features) {
         if (features[idx].properties.C_Name)
             features[idx].density = county_density[features[idx].properties.C_Name]
         else 
-            features[idx].density = 100; // district_density[features[idx].properties.TOWNNAME];
+            features[idx].density = district_density[features[idx].properties.TOWNNAME];
     d3.select("svg").selectAll("path").data(features).enter().append("path");
 
     d3.select("svg").selectAll("path").data(features).attr({
