@@ -1,0 +1,42 @@
+path {
+  cursor: pointer;
+}
+
+#info {
+  margin: auto;
+  text-align: center;
+  vertical-align: middle;
+} 
+
+#name {
+  color: #fd3;
+  font-size: 3rem;
+}
+
+#density {
+  font-size: 2.5rem;
+}
+
+.selected{
+	stroke: #fd3;
+	stroke-width: 2;
+}
+
+body {
+  color: white;
+  font-family: 'Microsoft JhengHei';
+  background: #232526;
+  background: linear-gradient(to right, #414345, #232526);
+}
+
+#header {
+  margin: auto;
+  text-align: center;
+  font-size: 3rem;
+  font-style: bold;
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
