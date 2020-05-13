@@ -39,12 +39,7 @@ var district_features = topojson.feature(districtData, districtData.objects.twma
 $(document).ready(function() {
     render(county_features);
 
-    // d3.select("svg").on("mousemove", function() {
-    //     update();
-    // });
-
     d3.select("svg").selectAll("path").on("click", (d) => {
-        //clicked(d.properties.C_Name);
         console.log(d.properties, d.density)
         update(d.properties,d.density);
     });
@@ -98,7 +93,6 @@ function backToFullMap() {
 }
 
 function render(features) {
-    //$('svg').empty();
     var prj = function(v) {
         var ret = d3.geo.mercator().center([122, 23.25]).scale(6000)(v);
         var position = { x: ret[0], y: ret[1] };
