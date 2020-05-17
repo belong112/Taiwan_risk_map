@@ -6,7 +6,7 @@ import csv
 with open('teststst.json',"r",encoding="utf-8") as json_file: 
     datas = json.load(json_file) 
   
-true_data = datas['data'] 
+true_data = datas['data']
   
 # now we will open a file for writing 
 o_file = open('output.csv', 'w') 

@@ -13,7 +13,7 @@ path {
   font-size: 3rem;
 }
 
-#density {
+#total {
   font-size: 2.5rem;
 }
 
@@ -39,4 +39,22 @@ body {
 .container {
   display: flex;
   justify-content: space-around;
+}
+
+#scalediv {
+  margin-top: 100px; 
+  justify-content: center;
+  display: inline-block;
+}
+
+#scalecolor {
+  margin: 10px;
+  width: 150px;
+  height: 30px;
+  background: linear-gradient(to right, #090, #f00);
+}
+
+#scalenum {
+  display: flex;
+  justify-content: space-between;
 }

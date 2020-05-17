@@ -1,51 +1,7 @@
-const county_density = {
-    "臺北市": 9952.60,
-    "嘉義市": 4512.66,
-    "新竹市": 4151.27,
-    "基隆市": 2809.27,
-    "新北市": 1932.91,
-    "桃園市": 1692.09,
-    "臺中市": 1229.62,
-    "彰化縣": 1201.65,
-    "高雄市": 942.97,
-    "臺南市": 860.02,
-    "金門縣": 847.16,
-    "澎湖縣": 802.83,
-    "雲林縣": 545.57,
-    "連江縣": 435.21,
-    "新竹縣": 376.86,
-    "苗栗縣": 311.49,
-    "屏東縣": 305.03,
-    "嘉義縣": 275.18,
-    "宜蘭縣": 213.89,
-    "南投縣": 125.10,
-    "花蓮縣": 71.96,
-    "臺東縣": 63.75
-};
-
-const district_density = {
-    "中正區": 1233,
-    "大安區": 121,
-    "南澳鄉": 9333,
-    "東石鄉": 5555,
-    "鳳林鎮": 321,
-    "光復鄉": 99,
-    "瑞穗鄉": 1003,
-    "豐濱鄉": 4599,
-    "富里鄉": 1231,
-    "玉里鎮": 8712,
-    "萬榮鄉": 918,
-    "吉安鄉": 138,
-    "新城鄉": 999,
-    "秀林鄉": 7727,
-    "花蓮市": 9000,
-    "壽豐鄉": 1555,
-    "卓溪鄉": 10,
-}
-
 var path = ''
 var mode = 'county_mode'
-const color = d3.scale.linear().domain([0, 10000]).range(["#090", "#f00"]);
+const county_color = d3.scale.linear().domain([0, 5000]).range(["#090", "#f00"]);
+const distrirct_color = d3.scale.linear().domain([0, 500]).range(["#090", "#f00"]);
 var county_features = topojson.feature(countyData, countyData.objects.county).features;
 var district_features = topojson.feature(districtData, districtData.objects.twmap).features;
 
@@ -53,8 +9,8 @@ $(document).ready(function() {
     render(county_features);
 
     d3.select("svg").selectAll("path").on("click", (d) => {
-        console.log(d.properties, d.density)
-        update(d.properties,d.density);
+        console.log(d.properties, d.total)
+        update(d.properties,d.total);
     });
 });
 
@@ -69,7 +25,7 @@ function addSelectClass(c_id) {
     document.getElementById(c_id).classList.add('selected');
 }
 
-function update(properties, density) {
+function update(properties, total) {
     var name = properties.C_Name;
     var id = properties.County_ID;
     if( mode !== 'county_mode'){
@@ -79,18 +35,21 @@ function update(properties, density) {
     console.log('name',name,'id',id);
     $("#name").text(name);
     addSelectClass(id);
-    $("#density").text(density);
+    $("#total").text(total);
 }
 
 function goToDistrictMap() {
     clearselected();
     var c_name = $("#name").text();
+    if (c_name === "?") {
+        return;
+    }
     var newfeature = district_features.filter(feature => {
         if (feature.properties.COUNTYNAME === c_name)
             return feature
     })
     console.log(newfeature);
-    render(newfeature)
+    render(newfeature, c_name)
     document.getElementById("findDetailBtn").style["display"] = "none";
     document.getElementById("backToFullMapBtn").style["display"] = "";
     mode = 'district_mode';
@@ -99,7 +58,7 @@ function goToDistrictMap() {
 function backToFullMap() {
     clearselected();
     console.log(county_features)
-    render(county_features);
+    render(county_features,'');
     document.getElementById("findDetailBtn").style["display"] = "";
     document.getElementById("backToFullMapBtn").style["display"] = "none";
     mode = 'county_mode';
@@ -114,9 +73,9 @@ function render(features) {
     path = d3.geo.path().projection(prj);
     for (idx = features.length - 1; idx >= 0; idx--)
         if (features[idx].properties.C_Name)
-            features[idx].density = county_density[features[idx].properties.C_Name]
+            features[idx].total = county_total[features[idx].properties.C_Name]
         else 
-            features[idx].density = district_density[features[idx].properties.TOWNNAME];
+            features[idx].total = district_total[features[idx].properties.COUNTYNAME][features[idx].properties.TOWNNAME] || 100;
     d3.select("svg").selectAll("path").data(features).enter().append("path");
 
     d3.select("svg").selectAll("path").data(features).attr({
@@ -125,6 +84,14 @@ function render(features) {
 
     d3.select("svg").selectAll("path").attr({
         "d": path,
-        "fill": function(d) { return color(d.density); }
+        "fill": function(d) {
+            if (d.properties.County_ID) {
+                return county_color(d.total); 
+            } 
+            else {
+                return distrirct_color(d.total)
+            }
+            
+        }
     })
 }
