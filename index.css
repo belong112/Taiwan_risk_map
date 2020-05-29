@@ -37,12 +37,15 @@ body {
 }
 
 .container {
+  margin: auto;
   display: flex;
   justify-content: space-around;
 }
 
 #scalediv {
-  /*position: fixed;*/
+  left: 30px;
+  bottom: 60px;
+  position: fixed;
   margin-top: 100px; 
   justify-content: center;
   display: inline-block;
@@ -51,7 +54,7 @@ body {
 #scalecolor {
   margin: 10px;
   width: 150px;
-  height: 30px;
+  height: 20px;
   background: linear-gradient(to right, #090, #f00);
 }
 
