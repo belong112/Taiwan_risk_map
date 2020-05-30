@@ -8,26 +8,35 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script><!-- custom files-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <link rel="stylesheet" type="text/css" href="Qapage.css">
     <script type="text/javascript" src="QApage_JS.js"></script>
 </head>
 
 <body>
-    <div class="d-flex justify-content-center">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="./index.html">回地圖</a>
+    </nav>
+        <div class="d-flex justify-content-center">
         <div class="w-75 p-3">
             <div id="info">
                 <div>
                     <h1 id="questionh1"></h1>
                     <h2 id="questionh2"></h2>
-                    <div class="btngroup d-flex justify-content-between">
-                        <button id="anwser1" class="btn btn-lg btn-primary"></button>
-                        <button id="anwser2" class="btn btn-lg btn-primary"></button>
-                        <button id="anwser3" class="btn btn-lg btn-primary"></button>
+                    <div class="btn-group btn-group-toggle d-flex justify-content-between" data-toggle="buttons">
+                        <label class="btn my-btn-lg btn-secondary" id="anwser1">
+                            <input type="radio" name="options" autocomplete="off" value="111">
+                        </label>
+                        <label class="btn my-btn-lg btn-secondary" id="anwser2">
+                            <input type="radio" name="options" autocomplete="off" value="222">
+                        </label>
+                        <label class="btn my-btn-lg btn-secondary" id="anwser3" >
+                            <input type="radio" name="options" autocomplete="off" value="333">
+                        </label>
                     </div>
                 </div>
-                <div class="mt-4" width='900'>
-                    <button type="button" id="previousbtn" class="btn btn-light" onclick="previousQuestion()">前一題</button>
+                <div class="mt-4 d-flex justify-content-between flex-row-reverse" width='900'>
                     <button type="button" id="nextbtn" class="btn btn-light" onclick="nextQuestion()">下一題</button>
+                    <button type="button" id="previousbtn" class="btn btn-light" onclick="previousQuestion()">前一題</button>
                 </div>
             </div>
         </div>

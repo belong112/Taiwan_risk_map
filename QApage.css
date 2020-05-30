@@ -1,0 +1,15 @@
+body {
+  color: white;
+  font-family: 'Microsoft JhengHei';
+  background: #232526;
+  background: linear-gradient(to right, #414345, #232526);
+}
+
+.my-btn-lg {
+	padding: .5rem 1rem;
+	font-size: 1.25rem;
+	line-height: 1.5;
+	border-radius: .3rem;	
+	width: 200px;
+	height: 100px;
+}
