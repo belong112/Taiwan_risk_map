@@ -9,6 +9,20 @@ $(document).ready(function() {
     render(county_features);
 });
 
+function renderStreetData(d_name) {
+    const streetData = taipei_fire_counts[d_name];
+    const tableElemnets = streetData.slice(0,3).map((data, index) => {
+        return (
+            '<tr>\
+                <th scope="row">' + (index+1) + '</th>\
+                <td>' + data.street + '</td>\
+                <td>' + data.count + '</td>\
+            </tr>'
+        )
+    });
+    document.getElementById("tableBody").innerHTML = tableElemnets.join('');
+}
+
 function clearselected() {
     if (document.querySelector('.selected')) {
         document.querySelector('.selected').classList.remove('selected');
@@ -26,8 +40,8 @@ function update(properties, total) {
     if( mode !== 'county_mode'){
         name = properties.TOWNNAME
         id = properties.TOWNCODE;
+        renderStreetData(name);
     }
-    console.log('name',name,'id',id);
     $("#name").text(name);
     addSelectClass(id);
     $("#total").text(total);
@@ -43,7 +57,6 @@ function goToDistrictMap() {
         if (feature.properties.COUNTYNAME === c_name)
             return feature
     })
-    console.log(newfeature);
     render(newfeature, c_name)
     document.getElementById("findDetailBtn").style["display"] = "none";
     document.getElementById("backToFullMapBtn").style["display"] = "";
@@ -52,7 +65,6 @@ function goToDistrictMap() {
 
 function backToFullMap() {
     clearselected();
-    console.log(county_features)
     render(county_features,'');
     document.getElementById("findDetailBtn").style["display"] = "";
     document.getElementById("backToFullMapBtn").style["display"] = "none";
