@@ -16,20 +16,20 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
       <a class="navbar-brand" href="./index.html">回地圖</a>
     </nav>
-        <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center">
         <div class="w-75 p-3">
             <div id="info">
                 <div>
                     <h1 id="questionh1"></h1>
                     <h2 id="questionh2"></h2>
                     <div class="btn-group btn-group-toggle d-flex justify-content-between" data-toggle="buttons">
-                        <label class="btn my-btn-lg btn-secondary" id="anwser1">
+                        <label class="btn my-btn-lg btn-secondary" style="border-color: white" id="anwser1">
                             <input type="radio" name="options" autocomplete="off" value="111">
                         </label>
-                        <label class="btn my-btn-lg btn-secondary" id="anwser2">
+                        <label class="btn my-btn-lg btn-secondary" style="border-color: white" id="anwser2">
                             <input type="radio" name="options" autocomplete="off" value="222">
                         </label>
-                        <label class="btn my-btn-lg btn-secondary" id="anwser3" >
+                        <label class="btn my-btn-lg btn-secondary" style="border-color: white" id="anwser3" >
                             <input type="radio" name="options" autocomplete="off" value="333">
                         </label>
                     </div>
@@ -37,6 +37,24 @@
                 <div class="mt-4 d-flex justify-content-between flex-row-reverse" width='900'>
                     <button type="button" id="nextbtn" class="btn btn-light" onclick="nextQuestion()">下一題</button>
                     <button type="button" id="previousbtn" class="btn btn-light" onclick="previousQuestion()">前一題</button>
+                </div>
+            </div>
+            <div id="shop">
+                <h2>我們將你的風險值經過運算後，算出以下產品</h1>
+                <div class="card my-4">
+                  <div class="card-body" style="color: black">
+                    火險-100
+                  </div>
+                </div>
+                <div class="card my-4">
+                  <div class="card-body" style="color: black">
+                    火險-300
+                  </div>
+                </div>
+                <div class="card my-4">
+                  <div class="card-body" style="color: black">
+                    火險-500
+                  </div>
                 </div>
             </div>
         </div>

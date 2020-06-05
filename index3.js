@@ -7,6 +7,7 @@ var district_features = topojson.feature(districtData, districtData.objects.twma
 
 $(document).ready(function() {
     render(county_features);
+    hideDiv('firecaseTable');
 });
 
 function renderStreetData(d_name) {
@@ -34,11 +35,19 @@ function addSelectClass(c_id) {
     document.getElementById(c_id).classList.add('selected');
 }
 
+function showDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "";
+}
+
+function hideDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "none";
+}
+
 function update(properties, total) {
     var name = properties.C_Name;
     var id = properties.County_ID;
     if( mode !== 'county_mode'){
-        name = properties.TOWNNAME
+        name = properties.TOWNNAME;
         id = properties.TOWNCODE;
         renderStreetData(name);
     }
@@ -55,19 +64,21 @@ function goToDistrictMap() {
     }
     var newfeature = district_features.filter(feature => {
         if (feature.properties.COUNTYNAME === c_name)
-            return feature
+            return feature;
     })
     render(newfeature, c_name)
-    document.getElementById("findDetailBtn").style["display"] = "none";
-    document.getElementById("backToFullMapBtn").style["display"] = "";
+    hideDiv('findDetailBtn');
+    showDiv('backToFullMapBtn');
+    showDiv('firecaseTable');
     mode = 'district_mode';
 }
 
 function backToFullMap() {
     clearselected();
     render(county_features,'');
-    document.getElementById("findDetailBtn").style["display"] = "";
-    document.getElementById("backToFullMapBtn").style["display"] = "none";
+    hideDiv('backToFullMapBtn');
+    hideDiv('firecaseTable');
+    showDiv('findDetailBtn');
     mode = 'county_mode';
 }
 
@@ -81,7 +92,7 @@ function render(features) {
     path = d3.geo.path().projection(prj);
     for (idx = features.length - 1; idx >= 0; idx--)
         if (features[idx].properties.C_Name)
-            features[idx].total = county_total[features[idx].properties.C_Name]
+            features[idx].total = county_total[features[idx].properties.C_Name];
         else 
             features[idx].total = district_total[features[idx].properties.COUNTYNAME][features[idx].properties.TOWNNAME] || 100;
     d3.select("svg").selectAll("path").data(features).enter().append("path");
@@ -97,14 +108,14 @@ function render(features) {
                 return county_color(d.total); 
             } 
             else {
-                return distrirct_color(d.total)
+                return distrirct_color(d.total);
             }
             
         }
     });
 
     d3.select("svg").selectAll("path").on("click", (d) => {
-        console.log(d.properties, d.total)
+        console.log(d.properties, d.total);
         update(d.properties,d.total);
     });
 }
