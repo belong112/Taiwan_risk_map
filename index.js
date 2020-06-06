@@ -1,82 +1,181 @@
+var path = '';
+var mapMode = 'county_mode';
+var displayMode = 'total_mode';
+
+const colorFn = (min, max) => d3.scale.linear().domain([min, max]).range(["#090", "#f00"]);
+const county_total_colorFn = colorFn(0,5000);
+const district_total_colorFn = colorFn(0,500);
+const county_ratio_colorFn = colorFn(0,11094); // d3.scale.linear().domain([0, 11094]).range(["#090", "#f00"]);
+const district_ratio_colorFn = colorFn(0,11094); // d3.scale.linear().domain([0, 11094]).range(["#090", "#f00"]);
+
+var county_features = topojson.feature(countyData, countyData.objects.county).features;
+var district_features = topojson.feature(districtData, districtData.objects.twmap).features;
+
 $(document).ready(function() {
-    var density = {
-        "臺北市": 4952,
-        "嘉義市": 4512,
-        "新竹市": 4151,
-        "基隆市": 2809,
-        "新北市": 1932,
-        "桃園市": 1692,
-        "臺中市": 1229,
-        "彰化縣": 1201,
-        "高雄市": 942,
-        "臺南市": 860,
-        "金門縣": 847,
-        "澎湖縣": 802,
-        "雲林縣": 545,
-        "連江縣": 435,
-        "新竹縣": 376,
-        "苗栗縣": 311,
-        "屏東縣": 305,
-        "嘉義縣": 275,
-        "宜蘭縣": 213,
-        "南投縣": 125,
-        "花蓮縣": 71,
-        "臺東縣": 63,
-    };
+    render();
+    hideDiv('firecaseTable');
+});
 
-    // var topodata = topodata.filter()
-    var features = topojson.feature(topodata, topodata.objects.county).features;
-    var c_name = '新竹縣'
-    features = features.filter(feature => {
-                    if (feature.properties.COUNTYNAME === c_name)
-                        return feature
-                });
-    console.log(features)
-    var color = d3.scale.linear().domain([0, 10000]).range(["#060", "#53ff53"]);
-    var prj = function(v) {
-        var ret = d3.geo.mercator().center([122, 23.25]).scale(6000)(v);
-        return [ret.x, ret.y];
-    };
-    var path = d3.geo.path().projection(prj);
-    for (idx = features.length - 1; idx >= 0; idx--) features[idx].density = 100 // density[features[idx].properties.COUNTYNAME];
-    d3.select("svg").selectAll("path").data(features).enter().append("path");
+// TODO : optimize color function 
+// const color_func = (obj) => {
+//     const arr = Object.values(obj);
+//     const min = Math.min(...arr);
+//     const max = Math.max(...arr);
+//     return d3.scale.linear().domain([min, max]).range(["#090", "#f00"]);
+// }
 
-    d3.select("svg").selectAll("path").data(features).attr({
-        id: (d) => d.properties.TOWNCODE
+function renderStreetDataTable(d_name) {
+    const streetData = taipei_fire_counts[d_name];
+    const tableElemnets = streetData.slice(0,3).map((data, index) => {
+        return (
+            '<tr>\
+                <th scope="row">' + (index+1) + '</th>\
+                <td>' + data.street + '</td>\
+                <td>' + data.count + '</td>\
+            </tr>'
+        )
     });
+    document.getElementById("tableBody").innerHTML = tableElemnets.join('');
+}
 
-    let c_density = 0;
+function clearselected() {
+    if (document.querySelector('.selected')) {
+        document.querySelector('.selected').classList.remove('selected');
+    }
+}
 
-    function update() {
-        d3.select("svg").selectAll("path").attr({
-            "d": path,
-            "fill": function(d) { return color(d.density); }
-        }).on("mouseover", function(d) {
-            c_name = d.properties.COUNTYNAME;
-            c_density = d.density;
-            update_data();
+function addSelectClass(c_id) {
+    clearselected();
+    document.getElementById(c_id).classList.add('selected');
+}
+
+function showDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "";
+}
+
+function hideDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "none";
+}
+
+function update(properties, total) {
+    var name = properties.C_Name;
+    var id = properties.County_ID;
+    if( mapMode !== 'county_mode'){
+        name = properties.TOWNNAME;
+        id = properties.TOWNCODE;
+        renderStreetDataTable(name);
+    }
+    $("#name").text(name);
+    addSelectClass(id);
+    $("#total").text(total);
+}
+
+function goToDistrictMap() {
+    mapMode = 'district_mode';
+    clearselected();
+    render();
+    hideDiv('findDetailBtn');
+    showDiv('backToFullMapBtn');
+    showDiv('firecaseTable');
+}
+
+function backToFullMap() {
+    mapMode = 'county_mode';
+    clearselected();
+    render();
+    hideDiv('backToFullMapBtn');
+    hideDiv('firecaseTable');
+    showDiv('findDetailBtn');
+}
+
+function useRatioMode() {
+    displayMode = 'ratio_mode'; 
+    render();   
+    hideDiv('useRatioBtn');
+    showDiv('useTotalBtn');
+    document.getElementById("unit").innerHTML = '( 火災次數 / 戶數 )';
+}
+
+function useTotalMode(){
+    displayMode = 'total_mode';
+    render();
+    hideDiv('useTotalBtn');
+    showDiv('useRatioBtn');
+    document.getElementById("unit").innerHTML = '( 火災次數 / 年 )';
+}
+
+function computeFeature(mMode, dmode) {
+    var features = [];
+    if (mMode === 'county_mode'){
+        features = county_features;
+    }
+    else{
+        var c_name = $("#name").text();
+        if (c_name === "?") {
+            return;
+        }
+        var features = district_features.filter(feature => {
+            if (feature.properties.COUNTYNAME === c_name)
+                return feature;
         });
     }
 
-    function clicked(c_id) {
-        if (document.querySelector('.selected')) {
-            document.querySelector('.selected').classList.remove('selected');
+    // and total attr in features
+    for (idx = features.length - 1; idx >= 0; idx--){
+        if (features[idx].properties.C_Name) {
+            if (displayMode === 'total_mode')
+                features[idx].total = county_total[features[idx].properties.C_Name];
+            else
+                features[idx].total = county_ratio[features[idx].properties.C_Name];
         }
-        document.getElementById(c_id).classList.add('selected');
+        else {
+            if (displayMode === 'total_mode')
+                features[idx].total = district_total[features[idx].properties.COUNTYNAME][features[idx].properties.TOWNNAME] || 100;
+            else
+                features[idx].total = district_ratio[features[idx].properties.COUNTYNAME][features[idx].properties.TOWNNAME] || 100;
+        }
     }
 
-    function update_data() {
-        $("#name").text(c_name);
-        $("#density").text(c_density);
-    }
+    return features;
+}
 
-    d3.select("svg").on("mousemove", function() {
-        update();
+function render() {
+    features = computeFeature(mapMode, displayMode);
+    d3.select("svg").selectAll("*").remove();
+    var prj = function(v) {
+        var ret = d3.geo.mercator().center([122, 23.25]).scale(6000)(v);
+        var position = { x: ret[0], y: ret[1] };
+        return [position.x, position.y];
+    };
+    path = d3.geo.path().projection(prj);
+    
+    d3.select("svg").selectAll("path").data(features).enter().append("path");
+
+    d3.select("svg").selectAll("path").data(features).attr({
+        id: (d) => d.properties.TOWNCODE || d.properties.County_ID
+    });
+
+    d3.select("svg").selectAll("path").attr({
+        "d": path,
+        "fill": function(d) {
+            if (d.properties.County_ID) {
+                if (displayMode === 'ratio_mode')
+                    return county_ratio_colorFn(d.total*1000000); 
+                else
+                    return county_total_colorFn(d.total);
+            } 
+            else {
+                if (displayMode === 'ratio_mode')
+                    return district_ratio_colorFn(d.total*1000000);
+                else
+                    return district_total_colorFn(d.total);
+            }
+            
+        }
     });
 
     d3.select("svg").selectAll("path").on("click", (d) => {
-        clicked(d.properties.TOWNCODE);
+        console.log(d.properties, d.total);
+        update(d.properties,d.total);
     });
-
-    update();
-});
+}
