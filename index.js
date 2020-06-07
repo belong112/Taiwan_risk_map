@@ -1,6 +1,9 @@
 var path = '';
 var mapMode = 'county_mode';
 var displayMode = 'total_mode';
+const COUNTYNAME = [
+    "臺北市","嘉義市","新竹市","基隆市","新北市","桃園市","臺中市","高雄市","臺南市","金門縣","澎湖縣","雲林縣","連江縣","新竹縣","苗栗縣","屏東縣","嘉義縣","宜蘭縣","南投縣","花蓮縣","臺東縣"
+];
 
 const colorFn = (min, max) => d3.scale.linear().domain([min, max]).range(["#090", "#f00"]);
 const county_total_colorFn = colorFn(0,5000);
@@ -38,6 +41,26 @@ function renderStreetDataTable(d_name) {
     document.getElementById("tableBody").innerHTML = tableElemnets.join('');
 }
 
+function renderModelFullDataTable(d_name) {
+    const streetData = taipei_fire_counts[d_name];
+    const tableElemnets = streetData.map((data, index) => {
+        return (
+            '<tr>\
+                <th scope="row">' + (index+1) + '</th>\
+                <td>' + data.street + '</td>\
+                <td>' + data.count + '</td>\
+            </tr>'
+        )
+    });
+    document.getElementById("fullDataTable").innerHTML = tableElemnets.join('');
+    showDiv('popModalBtn');
+}
+
+function resetScale(min,max){
+    document.getElementById("leftnum").innerHTML = min;
+    document.getElementById("rightnum").innerHTML = max;
+}
+
 function clearselected() {
     if (document.querySelector('.selected')) {
         document.querySelector('.selected').classList.remove('selected');
@@ -64,6 +87,7 @@ function update(properties, total) {
         name = properties.TOWNNAME;
         id = properties.TOWNCODE;
         renderStreetDataTable(name);
+        renderModelFullDataTable(name);
     }
     $("#name").text(name);
     addSelectClass(id);
@@ -71,12 +95,17 @@ function update(properties, total) {
 }
 
 function goToDistrictMap() {
+    const c_name = $("#name").text();
+    if (!COUNTYNAME.includes(c_name))
+        return;
+
     mapMode = 'district_mode';
     clearselected();
     render();
     hideDiv('findDetailBtn');
     showDiv('backToFullMapBtn');
     showDiv('firecaseTable');
+    resetScale(0,500);
 }
 
 function backToFullMap() {
@@ -86,6 +115,7 @@ function backToFullMap() {
     hideDiv('backToFullMapBtn');
     hideDiv('firecaseTable');
     showDiv('findDetailBtn');
+    resetScale(0,5000);
 }
 
 function useRatioMode() {
@@ -94,6 +124,7 @@ function useRatioMode() {
     hideDiv('useRatioBtn');
     showDiv('useTotalBtn');
     document.getElementById("unit").innerHTML = '( 火災次數 / 戶數 )';
+    resetScale(0,0.011094);
 }
 
 function useTotalMode(){
