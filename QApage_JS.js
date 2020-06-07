@@ -1,58 +1,20 @@
-const Questions = [
-	{
-		'question':'你尿過幾次床?',
-		'anwser1': {
-			'text': '1次',
-			'parameter': 5,
-		},
-		'anwser2': {
-			'text': '2次',
-			'parameter': 3,
-		},
-		'anwser3': {
-			'text': '3次',
-			'parameter': 2,
-		},
-	},
-	{
-		'question': '你的數學期中幾分?',
-		'anwser1': {
-			'text': '100',
-			'parameter': 3,
-		},
-		'anwser2': {
-			'text': '70',
-			'parameter': 2,
-		},
-		'anwser3': {
-			'text': '30',
-			'parameter': 1,
-		},
-	},
-	{
-		'question': '不要不要?',
-		'anwser1': {
-			'text': '要',
-			'parameter': 10,
-		},
-		'anwser2': {
-			'text': '不要',
-			'parameter': 3,
-		},
-		'anwser3': {
-			'text': '要不要ㄋ',
-			'parameter': 7,
-		},
-	},
-];
-
 let q_index = 0;
 let total_score = 100;
 let parameterArray = [];
 
 $(document).ready(function() {
    renderQuestion(0);
+   hideDiv('spinner');
+   hideDiv('shopDiv');
 });
+
+function showDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "";
+}
+
+function hideDiv(elementId) {
+    document.getElementById(elementId).style["display"] = "none";
+}
 
 function previousQuestion() {
 	parameterArray.pop();
@@ -81,13 +43,21 @@ function submitanwser() {
 		total_score *= parameterArray[i];
 	}
 
-	document.getElementById("questionh1").innerHTML = '你的風險係數值為';
-	document.getElementById("questionh2").innerHTML = total_score;
-	document.getElementById("anwser1").style["display"] = "none";
-	document.getElementById("anwser2").style["display"] = "none";
-	document.getElementById("anwser3").style["display"] = "none";
-  document.getElementById("previousbtn").style["display"] = "none";
-	document.getElementById("nextbtn").style["display"] = "none";
+	hideDiv('anwser1');
+	hideDiv('anwser2');
+	hideDiv('anwser3');
+	hideDiv('previousbtn');
+	hideDiv('nextbtn');
+	showDiv('spinner');
+	document.getElementById("questionh1").innerHTML = '';
+	document.getElementById("questionh2").innerHTML = '';
+
+	setTimeout(() => {
+		hideDiv('spinner');
+		document.getElementById("questionh1").innerHTML = '你的風險係數值為';
+		document.getElementById("questionh2").innerHTML = total_score;
+		showDiv('shopDiv');
+	}, 3000);
 }
 
 function renderQuestion(index) {
@@ -105,9 +75,9 @@ function renderQuestion(index) {
   }
 
   if (index === 0) {
-  	document.getElementById("previousbtn").style["display"] = "none";
+  	hideDiv('previousbtn');
   }
   else {
-		document.getElementById("previousbtn").style["display"] = "";
+  	showDiv('previousbtn');
   }
 }
