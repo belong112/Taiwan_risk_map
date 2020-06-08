@@ -10,6 +10,7 @@ const county_total_colorFn = colorFn(0,5000);
 const district_total_colorFn = colorFn(0,500);
 const county_ratio_colorFn = colorFn(0,11094); // d3.scale.linear().domain([0, 11094]).range(["#090", "#f00"]);
 const district_ratio_colorFn = colorFn(0,11094); // d3.scale.linear().domain([0, 11094]).range(["#090", "#f00"]);
+const originalViewBox = "100 100 600 200";
 
 var county_features = topojson.feature(countyData, countyData.objects.county).features;
 var district_features = topojson.feature(districtData, districtData.objects.twmap).features;
@@ -67,9 +68,10 @@ function clearselected() {
     }
 }
 
-function addSelectClass(c_id) {
+function addSelectClass(c_id, px) {
     clearselected();
     document.getElementById(c_id).classList.add('selected');
+    document.getElementById(c_id).style["stroke-width"] = px;
 }
 
 function showDiv(elementId) {
@@ -82,16 +84,24 @@ function hideDiv(elementId) {
 
 function update(properties, total) {
     var name = properties.C_Name;
+    var strokepx = 2;
     var id = properties.County_ID;
     if( mapMode !== 'county_mode'){
         name = properties.TOWNNAME;
         id = properties.TOWNCODE;
         renderStreetDataTable(name);
         renderModelFullDataTable(name);
+        strokepx = 0.4;
     }
     $("#name").text(name);
-    addSelectClass(id);
+    addSelectClass(id, strokepx);
     $("#total").text(total);
+}
+
+function zoomMap(viewboxsize, scalesize){
+    var mapsvg = document.getElementsByTagName("svg")[0];
+    mapsvg.setAttribute("viewBox", viewboxsize);
+    mapsvg.setAttribute("transform", 'scale(' + scalesize + ')');
 }
 
 function goToDistrictMap() {
@@ -100,6 +110,7 @@ function goToDistrictMap() {
         return;
 
     mapMode = 'district_mode';
+    zoomMap(viewBoxforDistrict[c_name], scaleforDistrict[c_name]);
     clearselected();
     render();
     hideDiv('findDetailBtn');
@@ -110,6 +121,7 @@ function goToDistrictMap() {
 
 function backToFullMap() {
     mapMode = 'county_mode';
+    zoomMap(originalViewBox);
     clearselected();
     render();
     hideDiv('backToFullMapBtn');
