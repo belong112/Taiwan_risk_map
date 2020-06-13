@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="QApage.css">
     <script type="text/javascript" src="QApage_JS.js"></script>
     <script type="text/javascript" src="data/question_data.js"></script>
+    <script type="text/javascript" src="data/insurance_data.js"></script>
 </head>
 
 <body>
@@ -19,14 +19,12 @@
     </nav>
     <div class="d-flex justify-content-center">
         <div class="w-75 p-3">
-            <div id="info">
+            <div id="main-form">
                 <div>
-                    <h1 id="questionh1"></h1>
+                    <h1>進階資料調查</h1>
+                    <h2 id="questionh1"></h2>
                     <h2 id="questionh2"></h2>
-                    <div class="btn-group-toggle d-flex justify-content-between row" data-toggle="buttons">
-                        <label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning" id="anwser1"></label>
-                        <label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning" id="anwser2"></label>
-                        <label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning" id="anwser3"></label>
+                    <div id="answerDiv" class="btn-group-toggle d-flex justify-content-around row" data-toggle="buttons">
                     </div>
                 </div>
                 <div class="mt-4 d-flex justify-content-between flex-row-reverse" width='900'>
@@ -40,34 +38,71 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
+            <div id="resultDiv" class="mb-5">
+                <h2>你的風險係數值為</h1>
+                <h3 id="score">total_score</h2>
+                <hr/>
+            </div>
             <div id="shopDiv">
-                <h2>我們將您的選擇和您所助的地區經過運算後，推薦您以下產品</h1>
-                <div id="shopList" style="color: black">
-                    <div class="card my-4">
-                        <div class="card-header" type="button" data-toggle="collapse" data-target="#multiCollapseExample1" aria-expanded="false" aria-controls="multiCollapseExample1">火險-7050</div>
-                        <div class="collapse multi-collapse" id="multiCollapseExample1">
-                            <div class="card card-body">
-                                保費4000
-                            </div>
+                <h2>我們將您的選擇和您所助的地區經過運算後，推薦您以下產品</h2>
+                <brr/>
+                <h3 class="text-warning">最佳組合推薦</h3>
+                <div id="mainShopList" class="row" style="color: black"></div>
+                <br/>
+                <h3 class="text-warning">另外也可加保...</h3>
+                <div id="subShopList" class="row" style="color: black"></div>
+            </div>
+
+            <div id="additional-form">
+                <h2 class="text-light"> 基本資料調查 </h2>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">你的身分</label>
+                    <select class="form-control" id="identitySelect">
+                        <option value="1">為自用住宅投保 </option>
+                        <option value="2">房東為出租房屋投保 </option>
+                        <option value="3">房客為承租房屋投保</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>房屋裝潢總價成本</label>
+                    <div class="input-group mb-3">
+                        <input id="costInput" type="number" class="form-control" min="1">
+                        <div class="input-group-append">
+                            <span class="input-group-text">萬</span>
                         </div>
                     </div>
-                    <div class="card my-4">
-                        <div class="card-header" type="button" data-toggle="collapse" data-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">火險-0050</div>
-                        <div class="collapse multi-collapse" id="multiCollapseExample2">
-                            <div class="card card-body">
-                                保費200
-                            </div>
+                    <small class="form-text text-light">請輸入數字 ex. 50, 250</small>
+                </div>
+                <div class="form-group">
+                    <label>房屋建造時間</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">民國</span>
+                        </div>
+                        <input id="yearInput" type="number" class="form-control" min="1">
+                        <div class="input-group-append">
+                            <span class="input-group-text">年</span>
                         </div>
                     </div>
-                    <div class="card my-4">
-                        <div class="card-header" type="button" data-toggle="collapse" data-target="#multiCollapseExample3" aria-expanded="false" aria-controls="multiCollapseExample3">火險-10950</div>
-                        <div class="collapse multi-collapse" id="multiCollapseExample3">
-                            <div class="card card-body">
-                                保費2900
-                            </div>
+                    <small class="form-text text-light">請輸入數字 ex. 82, 94</small>
+                </div>
+                <div class="form-group">
+                    <label>房屋總面積？（租屋房客可不填）</label>
+                    <div class="input-group mb-3">
+                        <input id="areaInput" type="number" class="form-control" min="1">
+                        <div class="input-group-append">
+                            <span class="input-group-text">坪</span>
                         </div>
+                    </div>
+                    <small class="form-text text-light">請輸入數字 ex. 50, 140</small>
+                </div>
+                <div class="form-group">
+                    <label>你的住址</label>
+                    <div class="input-group mb-3">
+                        <input id="address" type="text" class="form-control" >
                     </div>
                 </div>
+                <button type="button" onclick="handleAddionalFormSubmit()" class="btn btn-warning">送出</button>
             </div>
         </div>
     </div>
@@ -75,5 +110,4 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </body>
-
 </html>

@@ -1,47 +1,92 @@
 const Questions = [
 	{
-		'question':'你吃過幾次好媽媽滷味?',
-		'anwser1': {
-			'text': '1次',
-			'parameter': 5,
-		},
-		'anwser2': {
-			'text': '2次',
-			'parameter': 3,
-		},
-		'anwser3': {
-			'text': '3次',
-			'parameter': 2,
-		},
+		'question':'投保建築四周外牆?',
+		'anwsers': [
+			{
+				'text': '有完整外牆且建造堅固',
+				'content': '須為「鋼骨或鋼筋水泥造厚度在12公分以上」或「磚、石、水泥空心磚實砌所造厚度在24公分以上」或「玻璃帷幕造及金屬板造」',
+				'parameter': 1,
+			},
+			{
+				'text': '四面無牆或僅部分牆為不燃材料建造',
+				'content': '不燃材料包含：混凝土、磚或空心磚、瓦、石料、鋼鐵、鋁、玻璃、 玻璃纖維、礦棉、陶瓷品、砂漿、石灰及其他經中央主管建築機關認定符合耐燃一級之材料',
+				'parameter': 0,
+			},
+		],
 	},
 	{
-		'question': '你的數學期中幾分?',
-		'anwser1': {
-			'text': '100',
-			'parameter': 3,
-		},
-		'anwser2': {
-			'text': '70',
-			'parameter': 2,
-		},
-		'anwser3': {
-			'text': '30',
-			'parameter': 1,
-		},
+		'question': '建築屋頂?',
+		'anwsers': [
+			{
+				'text': '鋼筋水泥建造',
+				'content': '',
+				'parameter': 1,
+			},
+			{
+				'text': '不燃材料覆蓋',
+				'content': '不燃材料包含：混凝土、磚或空心磚、瓦、石料、鋼鐵、鋁、玻璃、 玻璃纖維、礦棉、陶瓷品、砂漿、石灰及其他經中央主管建築機關認定符合耐燃一級之材料',
+				'parameter': 0,
+			}
+		],
 	},
 	{
-		'question': '不要不要?',
-		'anwser1': {
-			'text': '要',
-			'parameter': 10,
-		},
-		'anwser2': {
-			'text': '不要',
-			'parameter': 3,
-		},
-		'anwser3': {
-			'text': '要不要ㄋ',
-			'parameter': 7,
-		},
+		'question': '建築與相鄰建築的型態?',
+		'anwsers': [
+			{
+				'text': '獨棟住宅',
+				'content': '住宅本身獨立，與相鄰建築不相連，之間有防火巷相隔',
+				'parameter': 430,
+			},
+			{
+				'text': '連幢住宅',
+				'content': '住宅本身有獨立出入口，但與相鄰建築僅以牆分隔',
+				'parameter': 1115,
+			}
+		],
+	},
+	{
+		'question': '建築樓層總數?',
+		'anwsers': [
+			{
+				'text': '1~14層樓',
+				'content': '',
+				'parameter': 1,
+			},
+			{
+				'text': '15~24層樓',
+				'content': '',
+				'parameter': 1.1,
+			},
+			{
+				'text': '25層樓以上',
+				'content': '',
+				'parameter': 1.15,
+			},
+		],
+	},
+	{
+		'question': '是否有下列消防設備?',
+		'anwsers': [
+			{
+				'text': '火警自動警報設備',
+				'content': '在火災發生初期，經由探測器偵測火災生成物，並通報受信總機發出警報，通知管理人員及所有的人員，進行避難逃生及滅火處理之設備',
+				'parameter': 0.95,
+			},
+			{
+				'text': '室內消防栓設備',
+				'content': '',
+				'parameter': 0.95,
+			},
+			{
+				'text': '自動滅火設備',
+				'content': '須各層樓之有效防護範圍達該樓層面積90%以上',
+				'parameter': 0.9,
+			},
+			{
+				'text': '以上皆無',
+				'content': '',
+				'parameter': 1,
+			},
+		],
 	},
 ];
