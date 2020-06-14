@@ -46,6 +46,7 @@ function submitanwser() {
 	for (var i = parameterArray.length - 1; i >= 2; i--) {
 		total_score *= parameterArray[i];
 	}
+	total_score = total_score.toFixed(2)
 
 	hideDiv('main-form');
 	showDiv('spinner');
@@ -131,9 +132,9 @@ function renderQuestion(index) {
 
 	const answerList = Questions[index].anwsers;
 	const answerElementList = answerList.map(item => (
-		`<label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning">
+		`<label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning" data-toggle="tooltip" data-placement="bottom" title="` + item.content + `">
     			<input type="radio" name="options" value="`+ item.parameter + `">`
-    			+ item.text +
+    			+ item.text + 
     	`</label>`
 	));
 	const answerDOM = answerElementList.join('');
