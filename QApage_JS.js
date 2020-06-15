@@ -41,12 +41,28 @@ function nextQuestion() {
 }
 
 function submitanwser() {
-	const parameters = [1, 1.3, 2.02];
+	const parameters = [2.02, 1.3, 1];
 	total_score = parameters[parseInt(parameterArray[0]) + parseInt(parameterArray[1])];
 	for (var i = parameterArray.length - 1; i >= 2; i--) {
 		total_score *= parameterArray[i];
 	}
-	total_score = total_score.toFixed(2)
+	total_score = total_score.toFixed(2);
+	ratio_in_all = (total_score - 387) / (2587.5 - 387)*100;
+	ratio_in_all = 100 - ratio_in_all.toFixed(0);
+
+	var ratioDesc = "";
+
+	if (ratio_in_all < 33.3) {
+		ratioDesc = "排在前" + ratio_in_all + "%，屬於高度危險群！";
+	} else if (ratio_in_all < 66.6) {
+		if (ratio_in_all <= 50.0)
+			ratioDesc = "排在前" + ratio_in_all + "%，屬於中度危險群！";
+		else
+			ratioDesc = "排在後" + (100-ratio_in_all) + "%，屬於中度危險群！";
+	} else {
+		ratioDesc = "排在後" + (100-ratio_in_all) + "%，屬於輕度危險群！";
+	}
+
 
 	hideDiv('main-form');
 	showDiv('spinner');
@@ -54,9 +70,10 @@ function submitanwser() {
 	setTimeout(() => {
 		hideDiv('spinner');
 		document.getElementById("score").innerHTML = total_score;
+		document.getElementById("ratio").innerHTML = ratioDesc;
 		showDiv('resultDiv');
 		showDiv('shopDiv');
-	}, 300);
+	}, 2000);
 }
 
 function handleAddionalFormSubmit() {
