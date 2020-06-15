@@ -56,7 +56,7 @@ function submitanwser() {
 		document.getElementById("score").innerHTML = total_score;
 		showDiv('resultDiv');
 		showDiv('shopDiv');
-	}, 3000);
+	}, 300);
 }
 
 function handleAddionalFormSubmit() {
@@ -65,24 +65,25 @@ function handleAddionalFormSubmit() {
 	const houseCost = document.getElementById("costInput").value;
 	const areaSize = document.getElementById("areaInput").value;
 	const houseYear = document.getElementById("yearInput").value;
-	if (identity === 3) {
+	if (identity == 3) {
 		if (houseYear < 70) {
 			return;
 		}
 
-		itemList.push(1);
+		itemList.push(0);
 		if (houseCost > 50) {
-			itemList.push(2);
+			itemList.push(1);
 		}
 	} else {
+		itemList.push(2)
 		if (houseYear <= 90) {
-			itemList.push(4);
+			itemList.push(3);
 		}
 		if (identity == 2 && areaSize >= 15) {
-			itemList.push(5);
+			itemList.push(4);
 		}
 		if (houseCost > 50) {
-			itemList.push(2);
+			itemList.push(1);
 		}
 	}
 	console.log(itemList);
