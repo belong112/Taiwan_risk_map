@@ -47,7 +47,7 @@ function submitanwser() {
 		total_score *= parameterArray[i];
 	}
 	total_score = total_score.toFixed(2);
-	ratio_in_all = (total_score - 387) / (2587.5 - 387)*100;
+	ratio_in_all = (total_score - 349.26) / (2587.5 - 349.26)*100;
 	ratio_in_all = 100 - ratio_in_all.toFixed(0);
 
 	var ratioDesc = "";
@@ -78,6 +78,7 @@ function submitanwser() {
 
 function handleAddionalFormSubmit() {
 	const itemList = [];
+	const sublist = [];
 	const identity = document.getElementById("identitySelect").value;
 	const houseCost = document.getElementById("costInput").value;
 	const areaSize = document.getElementById("areaInput").value;
@@ -101,13 +102,21 @@ function handleAddionalFormSubmit() {
 			itemList.push(1);
 		}
 	}
+
+	if (identity != 3) {
+		for (var i = 5; i >= 3; i--) {
+			if (!itemList.includes(i))
+				sublist.push(i);
+		}
+	}
+
 	console.log(itemList);
-	renderIsuranceList(itemList);
+	renderIsuranceList(itemList, sublist);
 	hideDiv('additional-form');
 	showDiv('main-form');
 }
 
-function renderIsuranceList(itemList) {
+function renderIsuranceList(itemList, sublist) {
 	const mainCardLists = itemList.map(item => (
 		`<div class="col-sm-12 col-md-4">
 			<div class="card m-1" >
@@ -120,12 +129,6 @@ function renderIsuranceList(itemList) {
 	));
 	const mainCardsDOM = mainCardLists.join('')
 	document.getElementById("mainShopList").innerHTML = mainCardsDOM;
-
-	const sublist = [];
-	for (var i = 5; i >= 3; i--) {
-		if (!itemList.includes(i))
-			sublist.push(i);
-	}
 
 	const subCardLists = sublist.map(item => (
 		`<div class="col-md-4 col-sm-12">
