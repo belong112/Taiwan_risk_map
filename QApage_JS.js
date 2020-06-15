@@ -106,7 +106,7 @@ function renderIsuranceList(itemList) {
 	document.getElementById("mainShopList").innerHTML = mainCardsDOM;
 
 	const sublist = [];
-	for (var i = 5; i >= 0; i--) {
+	for (var i = 5; i >= 3; i--) {
 		if (!itemList.includes(i))
 			sublist.push(i);
 	}

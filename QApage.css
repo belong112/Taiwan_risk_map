@@ -19,3 +19,12 @@ hr {
   border: 0;
   border-top: 2px solid #FFF;
 }
+
+.btn-warning:not(:disabled):not(.disabled).active{
+  border: 3px solid white;
+  background-color: #ffc107;
+}
+
+.btn-warning.focus{
+  box-shadow: none;
+}
