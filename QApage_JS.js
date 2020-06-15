@@ -133,10 +133,11 @@ function renderQuestion(index) {
 
 	const answerList = Questions[index].anwsers;
 	const answerElementList = answerList.map(item => (
-		`<label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning" data-toggle="tooltip" data-placement="bottom" title="` + item.content + `">
-    			<input type="radio" name="options" value="`+ item.parameter + `">`
-    			+ item.text + 
-    	`</label>`
+		`<label class="my-btn-lg btn col-md-3 col-sm-12 btn-warning">
+    			<input type="radio" name="options" value="`+ item.parameter + `">
+    			<p>`+ item.text + `</p>
+    			<p style="font-size: 12px">` + item.content + `</p>
+    	</label>`
 	));
 	const answerDOM = answerElementList.join('');
 	document.getElementById("answerDiv").innerHTML = answerDOM;

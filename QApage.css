@@ -1,8 +1,9 @@
 body {
-  color: white;
+  color: #00A94F;
   font-family: 'Microsoft JhengHei';
-  background: #232526;
-  background: linear-gradient(to right, #414345, #232526);
+ /* background: #232526;
+  background: linear-gradient(to right, #414345, #232526);*/
+  background: #F8F8F0;
 }
 
 .my-btn-lg {
@@ -10,21 +11,42 @@ body {
 	font-size: 1.25rem;
 	line-height: 1.5;
 	border-radius: .3rem;	
-	height: 100px;
+	min-height: 100px;
 }
 
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 2px solid #FFF;
+  border-top: 2px solid grey;
+}
+
+.btn-warning{
+  background-color: #FDEF00; 
+  border-color: #FDEF00;
+}
+
+.btn-warning:hover{
+  background-color: #FBD721; 
+  border-color: #FBD721;
 }
 
 .btn-warning:not(:disabled):not(.disabled).active{
-  border: 3px solid white;
-  background-color: #ffc107;
+  border: 3px solid #FBD721;
+  background-color: #FDEF00;
 }
 
 .btn-warning.focus{
   box-shadow: none;
+}
+
+.btn-cathy-green{
+  background: #45B96E;
+  border-color: #45B96E;
+  color: #FFFFFF;
+}
+
+.btn-cathy-grey{
+  background: #0002;
+  border-color: #0002;
 }

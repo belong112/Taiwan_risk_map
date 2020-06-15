@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: #00994E">
         <a class="navbar-brand" href="./index.html">回地圖</a>
     </nav>
     <div class="d-flex justify-content-center">
@@ -28,13 +28,13 @@
                     </div>
                 </div>
                 <div class="mt-4 d-flex justify-content-between flex-row-reverse" width='900'>
-                    <button type="button" id="nextbtn" class="btn btn-light" onclick="nextQuestion()">下一題</button>
-                    <button type="button" id="previousbtn" class="btn btn-light" onclick="previousQuestion()">前一題</button>
+                    <button type="button" id="nextbtn" class="btn btn-cathy-grey" onclick="nextQuestion()">下一題</button>
+                    <button type="button" id="previousbtn" class="btn btn-cathy-grey" onclick="previousQuestion()">前一題</button>
                 </div>
             </div>
             <div id="spinner" class="text-center">
-                <h1 class="text-warning">正在計算結果</h1>
-                <div class="spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status">
+                <h1>正在計算結果</h1>
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
@@ -44,17 +44,17 @@
                 <hr/>
             </div>
             <div id="shopDiv">
-                <h2>我們將您的選擇和您所助的地區經過運算後，推薦您以下產品</h2>
+                <h2 class="text-secondary">我們將您的選擇和您所助的地區經過運算後，推薦您以下產品</h2>
                 <brr/>
-                <h3 class="text-warning">最佳組合推薦</h3>
+                <h3>最佳組合推薦</h3>
                 <div id="mainShopList" class="row" style="color: black"></div>
                 <br/>
-                <h3 class="text-warning">另外也可加保...</h3>
+                <h3>另外也可加保...</h3>
                 <div id="subShopList" class="row" style="color: black"></div>
             </div>
 
             <div id="additional-form">
-                <h2 class="text-light"> 基本資料調查 </h2>
+                <h2> 基本資料調查 </h2>
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">你的身分</label>
                     <select class="form-control" id="identitySelect">
@@ -71,7 +71,7 @@
                             <span class="input-group-text">萬</span>
                         </div>
                     </div>
-                    <small class="form-text text-light">請輸入數字 ex. 50, 250</small>
+                    <small class="form-text">請輸入數字 ex. 50, 250</small>
                 </div>
                 <div class="form-group">
                     <label>房屋建造時間</label>
@@ -84,7 +84,7 @@
                             <span class="input-group-text">年</span>
                         </div>
                     </div>
-                    <small class="form-text text-light">請輸入數字 ex. 82, 94</small>
+                    <small class="form-text">請輸入數字 ex. 82, 94</small>
                 </div>
                 <div class="form-group">
                     <label>房屋總面積？（租屋房客可不填）</label>
@@ -94,7 +94,7 @@
                             <span class="input-group-text">坪</span>
                         </div>
                     </div>
-                    <small class="form-text text-light">請輸入數字 ex. 50, 140</small>
+                    <small class="form-text">請輸入數字 ex. 50, 140</small>
                 </div>
                 <div class="form-group">
                     <label>你的住址</label>
@@ -102,7 +102,7 @@
                         <input id="address" type="text" class="form-control" >
                     </div>
                 </div>
-                <button type="button" onclick="handleAddionalFormSubmit()" class="btn btn-warning">送出</button>
+                <button type="button" onclick="handleAddionalFormSubmit()" class="btn btn-cathy-green">送出</button>
             </div>
         </div>
     </div>
